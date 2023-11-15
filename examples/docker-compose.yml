@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  jupyterhub:
+    image: jupyterhub
+    container_name: jupyterhub
+    restart: always
+    networks:
+      - jupyterhub-network
+    volumes:
+      - './srv:/srv/jupyterhub'
+      - '/var/run/docker.sock:/var/run/docker.sock:rw'
+    ports:
+      - '8080:8080'
+  sshd:
+    image: sshpiper
+    container_name: jupyterhub-sshd
+    restart: always
+    environment:
+      - TEMPLATE=jupyter-{{.User}}:22
+      - SSHPIPERD_SERVER_KEY_DATA=<BASE64_KEY_DATA>
+    networks:
+      - jupyterhub-network
+    ports:
+      - '2222:2222'
+networks:
+  jupyterhub-network:
+    name: jupyterhub-network
