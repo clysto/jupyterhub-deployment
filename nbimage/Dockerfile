@@ -37,6 +37,11 @@ RUN rm -rf /etc/apt/sources.list.d/debian.sources && \
     'openssh-server' \
     'systemd' \
     'htop' \
+    'vim' \
+    'curl' \
+    'wget' \
+    'zip' \
+    'unzip' \
     'sudo' && \
     rm -rf /var/lib/apt/lists/* && \
     echo "mambauser:mambauser" | chpasswd && adduser mambauser sudo
