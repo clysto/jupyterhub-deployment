@@ -28,8 +28,8 @@
 ssh bob@jupyter-ip -p 2222
 ```
 
-> 请注意，此处的用户名是您的 JupyterHub 注册用户名，而不是您的 Linux 用户名。您输入的密码也是您的 JupyterHub 密码，而不是 Linux 密码。
-> Linux 用户名每个用户都是 "mambauser"，密码也是 "mambauser"。
+> 请注意，此处的用户名是您的 JupyterHub 注册用户名，而不是您的 Linux 用户名 (mambauser)。但是您输入的密码是 Linux 密码。默认是 "mambauser"。
+> Linux 用户名每个用户都是 "mambauser"。
 
 ## `jupyter-notebook` 镜像概述
 
