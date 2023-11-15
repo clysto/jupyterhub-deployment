@@ -88,6 +88,8 @@ micromamba activate base
 micromamba install -y <package>
 ```
 
+> 你也可以选择将某些软件包编译安装到家目录下，这样就不会受到容器销毁的影响。
+
 ### 为什么是 micromamba？
 
 选择使用 micromamba 是因为它是一个轻量级的 Conda 包管理工具，特别适用于容器化环境。它具有快速的启动时间和小的存储占用，并且拥有更快的依赖解析速度和多线程下载能力。
