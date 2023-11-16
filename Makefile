@@ -12,7 +12,7 @@ sshdimage: sshdimage/Dockerfile
 archive: jupyter-notebook.tar jupyterhub.tar sshpiper.tar
 
 jupyter-notebook.tar:
-	docker save jupyter-notebook:latest archive/jupyter-notebook.tar
+	docker save jupyter-notebook:latest -o archive/jupyter-notebook.tar
 
 jupyterhub.tar:
 	docker save jupyterhub:latest -o archive/jupyterhub.tar
