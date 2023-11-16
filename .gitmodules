@@ -1,3 +1,0 @@
-[submodule "sshpiper"]
-	path = sshpiper
-	url = git@git.ustc.edu.cn:clysto/sshpiper.git
