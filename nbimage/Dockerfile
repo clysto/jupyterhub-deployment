@@ -1,8 +1,10 @@
 FROM mambaorg/micromamba
 
-USER $MAMBA_USER
-WORKDIR /home/mambauser
+ARG S6_OVERLAY_VERSION=3.1.6.0
+ARG JUPYTERHUB_VERSION=4.0.2
 
+# install conda packages using MAMBA_USER
+USER $MAMBA_USER
 RUN micromamba install --name base -c conda-forge --yes \
     'python=3.10' \
     'pytorch-gpu' \
@@ -19,10 +21,11 @@ RUN micromamba install --name base -c conda-forge --yes \
     'scipy' \
     'seaborn' \
     'sympy' \
-    'jupyterhub=4.0.2' \
+    "jupyterhub=${JUPYTERHUB_VERSION}" \
     'notebook' && \
     micromamba clean --all --yes
 
+# install apt packages using root
 USER root
 RUN rm -rf /etc/apt/sources.list.d/debian.sources && \
     echo "deb http://mirrors.ustc.edu.cn/debian bookworm main contrib non-free non-free-firmware" >> /etc/apt/sources.list && \
@@ -35,7 +38,6 @@ RUN rm -rf /etc/apt/sources.list.d/debian.sources && \
     'cmake' \
     'build-essential' \
     'openssh-server' \
-    'systemd' \
     'htop' \
     'vim' \
     'curl' \
@@ -43,11 +45,24 @@ RUN rm -rf /etc/apt/sources.list.d/debian.sources && \
     'zip' \
     'unzip' \
     'sudo' && \
-    rm -rf /var/lib/apt/lists/* && \
-    echo "mambauser:mambauser" | chpasswd && adduser mambauser sudo
+    rm -rf /var/lib/apt/lists/* 
 
-USER $MAMBA_USER
-COPY --chown=mambauser:mambauser .bashrc .profile /home/mambauser/
-ENV SHELL /bin/bash
+# set default password for MAMBA_USER and enable ssh
+RUN echo "mambauser:mambauser" | chpasswd && \
+    adduser mambauser sudo && \
+    ssh-keygen -A && \
+    mkdir /run/sshd
 
-CMD echo mambauser | sudo -S /etc/init.d/ssh restart && jupyterhub-singleuser
+# add s6-overlay
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
+RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz /tmp
+RUN tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz
+
+# copy s6 services
+COPY services.d/ /etc/services.d/
+
+# add default user profile
+COPY --chown=$MAMBA_USER:$MAMBA_USER .bashrc .profile /home/$MAMBA_USER/
+
+CMD ["/init"]

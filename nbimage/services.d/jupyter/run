@@ -1,0 +1,9 @@
+#!/command/with-contenv sh
+
+PROG=/opt/conda/bin/jupyterhub-singleuser
+
+cd /home/$MAMBA_USER
+export SHELL=/bin/bash
+export HOME=/home/$MAMBA_USER
+
+s6-setuidgid $MAMBA_USER $PROG
