@@ -44,8 +44,14 @@ RUN rm -rf /etc/apt/sources.list.d/debian.sources && \
     'wget' \
     'zip' \
     'unzip' \
-    'sudo' && \
+    'sudo' \
+    'git' \
+    'locales' && \
     rm -rf /var/lib/apt/lists/* 
+
+# set locale
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG=en_US.utf8
 
 # set default password for MAMBA_USER and enable ssh
 RUN echo "mambauser:mambauser" | chpasswd && \
@@ -61,8 +67,5 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz
 
 # copy s6 services
 COPY services.d/ /etc/services.d/
-
-# add default user profile
-COPY --chown=$MAMBA_USER:$MAMBA_USER .bashrc .profile /home/$MAMBA_USER/
 
 CMD ["/init"]

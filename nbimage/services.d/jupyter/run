@@ -6,4 +6,8 @@ cd /home/$MAMBA_USER
 export SHELL=/bin/bash
 export HOME=/home/$MAMBA_USER
 
-s6-setuidgid $MAMBA_USER $PROG
+if [ -f /home/$MAMBA_USER/.startup ]; then
+    /home/$MAMBA_USER/.startup
+fi
+
+exec s6-setuidgid $MAMBA_USER $PROG
