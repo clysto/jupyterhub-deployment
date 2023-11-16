@@ -1,3 +1,4 @@
 /examples/srv
 /archive
 .DS_Store
+.envrc
