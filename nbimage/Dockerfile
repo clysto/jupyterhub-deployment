@@ -69,4 +69,8 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz
 COPY services.d/ /etc/services.d/
 COPY cont-init.d/ /etc/cont-init.d/
 
+# fix .bashrc
+RUN sed -i '/_activate_current_env/d' /home/${MAMBA_USER}/.bashrc && \
+    sed -i '/_activate_current_env/d' /etc/skel/.bashrc
+
 CMD ["/init"]
