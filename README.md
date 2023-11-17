@@ -81,7 +81,6 @@ echo "$PASSWORD" | sudo -S rm /etc/services.d/sshd/down > /dev/null
   - cmake
   - build-essential
   - openssh-server
-  - systemd
   - htop
   - vim
   - curl
@@ -89,6 +88,8 @@ echo "$PASSWORD" | sudo -S rm /etc/services.d/sshd/down > /dev/null
   - zip
   - unzip
   - sudo
+  - git
+  - locales
 
 > 如果您需要更多软件包，可以修改 `nbimage/Dockerfile` 并重新构建镜像。欢迎提交拉取请求，我们将考虑将您的更改合并到主分支。
 
