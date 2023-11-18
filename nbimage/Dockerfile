@@ -1,4 +1,4 @@
-FROM mambaorg/micromamba
+FROM mambaorg/micromamba:1.5.1-bookworm-slim
 
 ARG S6_OVERLAY_VERSION=3.1.6.0
 ARG JUPYTERHUB_VERSION=4.0.2

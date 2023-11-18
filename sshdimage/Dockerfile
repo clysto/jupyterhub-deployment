@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.18.4
 
 # Add user nobody with id 1
 ARG USERID=1000
