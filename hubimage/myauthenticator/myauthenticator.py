@@ -48,6 +48,7 @@ class MyAuthenticator(NativeAuthenticator):
             extensions=[
                 "permit-X11-forwarding",
                 "permit-agent-forwarding",
+                "permit-port-forwarding",
                 "permit-pty",
             ],
             valid_after=datetime.datetime.now(),
