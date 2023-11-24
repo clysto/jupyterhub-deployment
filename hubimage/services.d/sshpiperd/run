@@ -1,0 +1,4 @@
+#!/command/with-contenv sh
+
+cd /srv/sshpiperd
+exec /srv/sshpiperd/sshpiperd --drop-hostkeys-message /srv/sshpiperd/sshmux

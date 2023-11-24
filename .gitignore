@@ -2,3 +2,5 @@
 /archive
 .DS_Store
 .envrc
+__pycache__
+ssh_ca*

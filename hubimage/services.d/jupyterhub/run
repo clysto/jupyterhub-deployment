@@ -1,0 +1,4 @@
+#!/command/with-contenv sh
+
+cd /srv/jupyterhub
+exec jupyterhub

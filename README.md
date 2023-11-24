@@ -22,21 +22,25 @@
 
 ### SSH 访问
 
-如果您想要通过 SSH 在 IDE/VS Code 中连接到服务器，这也是完全可行的。但是，由于每个容器都与外界隔离，我们专门设置了一个 SSH 网关用于此目的。但是容器默认没有开启sshd，您需要先执行以下命令开启sshd：
+如果您想要通过 SSH 在 IDE/VS Code 中连接到服务器，这也是完全可行的。但是，由于每个容器都与外界隔离，我们专门设置了一个 SSH 网关用于此目的。
+
+然后您可以通过 SSH 网关连接到您的容器，该网关监听端口为 `2222`。您可以使用以下命令连接到您的容器：
 
 ```bash
-# 会询问 sudo 密码，密码默认是 mambauser
-sudo /command/s6-svc -u /run/service/sshd
+ssh -i jupyter.pem mambauser@jupyter-ip -p 2222
 ```
 
-然后您可以通过 SSH 网关连接到您的容器，该网关监听端口为 `2222`。例如，如果您的用户名是 "bob"，您可以使用以下命令连接到您的容器：
-
-```bash
-ssh bob@jupyter-ip -p 2222
-```
-
-> 请注意，此处的用户名是您的 JupyterHub 注册用户名，而不是您的 Linux 用户名 (mambauser)。但是您输入的密码是 Linux 密码。默认是 "mambauser"。
-> Linux 用户名每个用户都是 "mambauser"。
+> 请注意，您需要将 `jupyter.pem` 替换为您的私钥文件的路径。您可以在 JupyterHub 网页中下载私钥文件。
+>
+> 你也可以在`~/.ssh/config`配置文件中添加以下内容，这样就可以直接使用 `ssh jupyter` 命令连接到容器：
+>
+> ```bash
+> Host jupyter
+>     HostName jupyter-ip
+>     User mambauser
+>     Port 2222
+>     IdentityFile /path/to/jupyter.pem
+> ```
 
 ### startup 脚本
 

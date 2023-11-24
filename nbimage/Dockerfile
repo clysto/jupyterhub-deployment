@@ -57,7 +57,10 @@ ENV LANG=en_US.utf8
 RUN echo "mambauser:mambauser" | chpasswd && \
     adduser mambauser sudo && \
     ssh-keygen -A && \
-    mkdir /run/sshd
+    mkdir /run/sshd && \
+    echo "TrustedUserCAKeys /etc/ssh/ssh_ca.pub" >>/etc/ssh/sshd_config.d/jupyterhub.conf && \
+    echo "AuthorizedPrincipalsFile /etc/ssh/ssh_principals" >>/etc/ssh/sshd_config.d/jupyterhub.conf &&\
+    echo "PasswordAuthentication no" >>/etc/ssh/sshd_config.d/jupyterhub.conf
 
 # add s6-overlay
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp

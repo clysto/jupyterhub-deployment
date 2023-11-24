@@ -1,0 +1,42 @@
+{% extends "page.html" %} {% block main %}
+<div class="container">
+  <h1>SSH key</h1>
+  <p>
+    This is your SSH key. You can use it to log in to the server via SSH.
+  </p>
+  {% if key %}
+  <div class="form-group">
+    <label>SHA256 fingerprint</label>
+    <div class="input-group col-xs-6">
+      <input type="text" class="form-control" style="font-family: monospace;" readonly value="{{key.fingerprint}}">
+    </div>
+    <p></p>
+    <label>Public key</label>
+    <div class="input-group col-xs-6">
+      <textarea class="form-control" style="font-family: monospace;" readonly rows="8">{{ key.public_key }}</textarea>
+    </div>
+    <p></p>
+    <label>Private key</label>
+    <div class="input-group col-xs-6">
+      <textarea class="form-control" style="font-family: monospace;" readonly rows="4">{{ key.private_key }}</textarea>
+    </div>
+    <p></p>
+    <div>
+      <form action="{{post_url}}" method="post" role="form">
+        <a class="btn btn-jupyter" download="jupyterhub.pem" href="{{ base_url }}ssh-key-download">Download</a>
+        <input type="hidden" name="_xsrf" value="{{ xsrf }}"/>
+        <input type="submit" value="Regenerate Key" class="btn btn-light"></input>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <div class="alert alert-info" role="alert">
+    <p>You don't have an SSH key yet. Click the button below to generate one.</p>
+  </div>
+  <form action="{{post_url}}" method="post" role="form">
+    <input type="hidden" name="_xsrf" value="{{ xsrf }}"/>
+    <input type="submit" value="Generate New Key" class="btn btn-jupyter"></input>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}
