@@ -44,14 +44,13 @@ ssh -i jupyter.pem mambauser@jupyter-ip -p 2222
 
 ### startup 脚本
 
-为了方便用户在容器创建后执行一些自定义操作，我们提供了一个 startup 脚本机制。如果用户家目录 (/home/mambauser) 下存在名为 `.startup` 的脚本，那么该脚本将在容器启动时执行。您可以在其中执行任何自定义操作，例如安装软件包、配置环境变量等。常见的使用比如在容器创建的时候自动更换用户密码，并启动 SSH 服务：
+为了方便用户在容器创建后执行一些自定义操作，我们提供了一个 startup 脚本机制。如果用户家目录 (/home/mambauser) 下存在名为 `.startup` 的脚本，那么该脚本将在容器启动时执行。您可以在其中执行任何自定义操作，例如安装软件包、配置环境变量等。常见的使用比如在容器创建的时候自动更换用户密码：
 
 ```bash
 #!/bin/bash
 
 PASSWORD="<NEW_STRONG_PASSWORD>"
 echo "mambauser" | sudo -S echo "mambauser:$PASSWORD" | chpasswd > /dev/null
-echo "$PASSWORD" | sudo -S rm /etc/services.d/sshd/down > /dev/null
 ```
 
 > 注意该脚本需要有可执行权限，您可以使用 `chmod +x .startup` 命令添加可执行权限。并且系统默认会用 mambauser 用户执行该脚本。你可以用 sudo 切换到 root 用户执行一些需要 root 权限的操作。
