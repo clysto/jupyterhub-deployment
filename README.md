@@ -106,7 +106,7 @@ echo "mambauser" | sudo -S echo "mambauser:$PASSWORD" | chpasswd > /dev/null
 
 ```bash
 # 容器启动后只需要执行一次
-micromamba shell init
+micromamba shell init /opt/conda
 # 激活 base 环境
 micromamba activate base
 # 安装软件包
